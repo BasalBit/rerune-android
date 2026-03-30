@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+    <string name="title">Local</string>
+    <string name="body">Local</string>
+    <string name="button">Check for updates</string>
+    <string name="sample_placeholder">Sample number: %1$d text: %2$s</string>
+</resources>

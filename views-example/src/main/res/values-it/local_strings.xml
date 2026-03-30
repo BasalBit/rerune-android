@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+    <string name="apply_programmatic_texts_button">Applica titolo/testo via codice</string>
+    <string name="check_updates_content_description">Controlla aggiornamenti OTA</string>
+    <string name="input_hint">Inserisci testo di esempio</string>
+    <string name="input_content_description">Campo input di esempio</string>
+    <string name="last_redraw">Ultimo redraw: %1$s</string>
+</resources>

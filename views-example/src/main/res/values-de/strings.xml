@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+    <string name="title">Rerune OTA Beispiel</string>
+    <string name="body">Uebersetzungen aktualisieren ohne Neustart.</string>
+    <string name="button">Nach Updates suchen</string>
+    <string name="sample_placeholder">Probennummer: %1$d Text: %2$s</string>
+</resources>
