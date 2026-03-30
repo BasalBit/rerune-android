@@ -1,6 +1,6 @@
 [versions]
-agp = "8.4.2"
-kotlin = "1.9.24"
+agp = "9.0.1"
+kgp = "2.2.10"
 rerune = "0.4.1"
 composeBom = "2024.06.00"
 activityCompose = "1.9.1"
@@ -28,4 +28,4 @@ material = { module = "com.google.android.material:material", version.ref = "mat
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kgp" }

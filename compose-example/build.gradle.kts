@@ -1,6 +1,8 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
   alias(libs.plugins.android.application)
-  alias(libs.plugins.kotlin.android)
+  alias(libs.plugins.compose.compiler)
 }
 
 val otaPublishId = providers.gradleProperty("RERUNE_OTA_PUBLISH_ID")
@@ -10,12 +12,12 @@ val otaPublishId = providers.gradleProperty("RERUNE_OTA_PUBLISH_ID")
 
 android {
   namespace = "io.rerune.example.compose"
-  compileSdk = 34
+  compileSdk = 36
 
   defaultConfig {
     applicationId = "io.rerune.example.compose"
     minSdk = 21
-    targetSdk = 34
+    targetSdk = 36
     versionCode = 1
     versionName = "1.0"
 
@@ -36,8 +38,10 @@ android {
     targetCompatibility = JavaVersion.VERSION_17
   }
 
-  kotlinOptions {
-    jvmTarget = "17"
+  kotlin {
+    compilerOptions {
+      jvmTarget = JvmTarget.JVM_17
+    }
   }
 }
 
