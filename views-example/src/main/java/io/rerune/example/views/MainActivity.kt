@@ -4,6 +4,9 @@ import android.content.Context
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import androidx.lifecycle.lifecycleScope
 import io.rerune.example.views.databinding.ActivityMainBinding
 import java.text.SimpleDateFormat
@@ -26,10 +29,20 @@ class MainActivity : AppCompatActivity() {
     binding = ActivityMainBinding.inflate(layoutInflater)
     setContentView(binding.root)
 
+    applySystemBarsInsets()
     bindDynamicStrings()
     setupPullToRefresh()
     setupActions()
     observeStringUpdates()
+  }
+
+  private fun applySystemBarsInsets() {
+    ViewCompat.setOnApplyWindowInsetsListener(binding.root) { view, insets ->
+      val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+      view.updatePadding(top = systemBars.top)
+      insets
+    }
+    ViewCompat.requestApplyInsets(binding.root)
   }
 
   private fun setupPullToRefresh() {

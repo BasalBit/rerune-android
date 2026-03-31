@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
@@ -78,6 +79,7 @@ private fun ComposeExampleScreen() {
     Box(
       modifier = Modifier
         .fillMaxSize()
+        .statusBarsPadding()
         .pullRefresh(pullRefreshState),
     ) {
       Column(
