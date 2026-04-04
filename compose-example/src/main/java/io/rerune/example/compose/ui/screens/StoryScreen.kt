@@ -62,7 +62,7 @@ fun StoryScreen(
         ) {
           Icon(
             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-            contentDescription = stringResource(R.string.story_back_cta),
+            contentDescription = "Back",
           )
         }
 

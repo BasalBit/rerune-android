@@ -43,7 +43,7 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:background="?attr/selectableItemBackgroundBorderless"
-        android:contentDescription="@string/story_back_cta"
+        android:contentDescription="Back"
         android:padding="8dp"
         android:src="?attr/homeAsUpIndicator"
         android:tint="@color/text_primary" />
