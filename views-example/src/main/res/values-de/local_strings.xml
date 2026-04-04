@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<resources>
-    <string name="apply_programmatic_texts_button">Titel/Text per Code setzen</string>
-    <string name="check_updates_content_description">Nach OTA-Updates suchen</string>
-    <string name="input_hint">Beispieltext eingeben</string>
-    <string name="input_content_description">Beispiel-Eingabefeld</string>
-    <string name="last_redraw">Letztes Redraw: %1$s</string>
-</resources>

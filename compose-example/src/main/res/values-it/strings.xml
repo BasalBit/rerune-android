@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<resources>
-    <string name="title">Esempio OTA Rerune</string>
-    <string name="body">Le traduzioni si aggiornano senza riavvio.</string>
-    <string name="button">Cerca aggiornamenti</string>
-    <string name="sample_placeholder">Numero campione: %1$d testo: %2$s</string>
-</resources>

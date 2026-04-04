@@ -3,38 +3,38 @@ package io.rerune.example.compose
 import android.content.Context
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
+import androidx.activity.enableEdgeToEdge
+import androidx.annotation.StringRes
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.pullrefresh.PullRefreshIndicator
-import androidx.compose.material.pullrefresh.pullRefresh
-import androidx.compose.material.pullrefresh.rememberPullRefreshState
-import androidx.compose.material3.Button
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
+import io.rerune.example.compose.ui.screens.StoryScreen
+import io.rerune.example.compose.ui.screens.WelcomeScreen
+import io.rerune.example.compose.ui.theme.ReRuneDemoTheme
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import rerune.ReRune
-import rerune.compose.reRuneObserveRevision
 import rerune.reRune
 
 class MainActivity : ComponentActivity() {
@@ -44,96 +44,132 @@ class MainActivity : ComponentActivity() {
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
+    enableEdgeToEdge()
+
     setContent {
-      MaterialTheme {
+      ReRuneDemoTheme {
         Surface(modifier = Modifier.fillMaxSize()) {
-          ComposeExampleScreen()
+          ReRuneDemoApp()
         }
       }
     }
   }
 }
 
-@OptIn(ExperimentalMaterialApi::class)
+private enum class DemoScreen {
+  Welcome,
+  Story,
+}
+
 @Composable
-private fun ComposeExampleScreen() {
-  reRuneObserveRevision {
-    val scope = rememberCoroutineScope()
-    var status by remember { mutableStateOf<String?>(null) }
-    var refreshing by remember { mutableStateOf(false) }
-    var redrawTick by remember { mutableIntStateOf(0) }
-    val redrawTimestamp = remember(redrawTick) { currentRedrawTimestamp() }
-    val pullRefreshState = rememberPullRefreshState(
-      refreshing = refreshing,
-      onRefresh = {
-        scope.launch {
-          refreshing = true
-          val result = ReRune.checkForUpdates()
-          status = result.status.name
-          redrawTick += 1
-          refreshing = false
-        }
-      },
-    )
+private fun ReRuneDemoApp() {
+  var currentScreen by rememberSaveable { mutableStateOf(DemoScreen.Welcome) }
+  val refreshStateHolder = rememberReRuneRefreshStateHolder()
 
-    Box(
-      modifier = Modifier
-        .fillMaxSize()
-        .statusBarsPadding()
-        .pullRefresh(pullRefreshState),
-    ) {
-      Column(
-        modifier = Modifier
-          .fillMaxSize()
-          .padding(24.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp),
-      ) {
-        Text(
-          text = stringResource(R.string.title),
-          style = MaterialTheme.typography.headlineMedium,
-        )
-        Text(
-          text = stringResource(R.string.body),
-          style = MaterialTheme.typography.bodyLarge,
-        )
-        Text(
-          text = stringResource(R.string.sample_placeholder, 1, "RubinTXT"),
-          style = MaterialTheme.typography.bodyLarge,
-        )
-        Text(
-          text = stringResource(R.string.last_redraw, redrawTimestamp),
-          style = MaterialTheme.typography.bodyMedium,
-        )
-        Button(
-          onClick = {
-            scope.launch {
-              val result = ReRune.checkForUpdates()
-              status = result.status.name
-              redrawTick += 1
-            }
-          },
-        ) {
-          Text(text = stringResource(R.string.button))
-        }
+  BackHandler(enabled = currentScreen == DemoScreen.Story) {
+    currentScreen = DemoScreen.Welcome
+  }
 
-        if (status != null) {
-          Text(
-            text = "status change OTA: $status",
-            style = MaterialTheme.typography.bodyMedium,
-          )
-        }
+  AnimatedContent(
+    targetState = currentScreen,
+    transitionSpec = {
+      if (targetState == DemoScreen.Story) {
+        slideInHorizontally(
+          animationSpec = tween(durationMillis = 420),
+          initialOffsetX = { fullWidth -> fullWidth / 5 },
+        ) + fadeIn(animationSpec = tween(durationMillis = 240)) togetherWith
+          slideOutHorizontally(
+            animationSpec = tween(durationMillis = 420),
+            targetOffsetX = { fullWidth -> -fullWidth / 8 },
+          ) + fadeOut(animationSpec = tween(durationMillis = 220))
+      } else {
+        slideInHorizontally(
+          animationSpec = tween(durationMillis = 420),
+          initialOffsetX = { fullWidth -> -fullWidth / 5 },
+        ) + fadeIn(animationSpec = tween(durationMillis = 240)) togetherWith
+          slideOutHorizontally(
+            animationSpec = tween(durationMillis = 420),
+            targetOffsetX = { fullWidth -> fullWidth / 8 },
+          ) + fadeOut(animationSpec = tween(durationMillis = 220))
+      }
+    },
+    label = "screen_transition",
+  ) { screen ->
+    when (screen) {
+      DemoScreen.Welcome -> {
+        WelcomeScreen(
+          isRefreshing = refreshStateHolder.isRefreshing,
+          refreshStateResId = refreshStateHolder.messageResId,
+          lastSyncedText = refreshStateHolder.lastSyncedText,
+          onRefresh = refreshStateHolder::refresh,
+          onOpenStory = { currentScreen = DemoScreen.Story },
+        )
       }
 
-      PullRefreshIndicator(
-        refreshing = refreshing,
-        state = pullRefreshState,
-        modifier = Modifier.align(Alignment.TopCenter),
-      )
+      DemoScreen.Story -> {
+        StoryScreen(
+          isRefreshing = refreshStateHolder.isRefreshing,
+          onBack = { currentScreen = DemoScreen.Welcome },
+          onRefresh = refreshStateHolder::refresh,
+        )
+      }
     }
   }
 }
 
-private fun currentRedrawTimestamp(): String {
-  val formatter = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+@Composable
+private fun rememberReRuneRefreshStateHolder(): ReRuneRefreshStateHolder {
+  val scope = rememberCoroutineScope()
+  return remember(scope) {
+    ReRuneRefreshStateHolder(scope = scope)
+  }
+}
+
+@Stable
+private class ReRuneRefreshStateHolder(
+  private val scope: CoroutineScope,
+) {
+  var isRefreshing by mutableStateOf(false)
+    private set
+
+  @get:StringRes
+  var messageResId by mutableStateOf(R.string.welcome_refresh_state_idle)
+    private set
+
+  var lastSyncedText by mutableStateOf(currentTimestamp())
+    private set
+
+  fun refresh() {
+    if (isRefreshing) return
+
+    scope.launch {
+      isRefreshing = true
+      try {
+        messageResId = R.string.welcome_refresh_state_checking
+        delay(400)
+
+        messageResId = R.string.welcome_refresh_state_downloading
+        try {
+          ReRune.checkForUpdates()
+        } catch (_: Throwable) {
+          // Keep the demo state flow deterministic even if the request fails.
+        }
+
+        messageResId = R.string.welcome_refresh_state_applying
+        delay(500)
+
+        messageResId = R.string.welcome_refresh_state_success
+        lastSyncedText = currentTimestamp()
+        delay(1400)
+      } finally {
+        isRefreshing = false
+        messageResId = R.string.welcome_refresh_state_idle
+      }
+    }
+  }
+}
+
+private fun currentTimestamp(): String {
+  val formatter = SimpleDateFormat("MMM d, yyyy h:mm a", Locale.getDefault())
   return formatter.format(Date())
 }

@@ -4,9 +4,11 @@
   <uses-permission android:name="android.permission.INTERNET" />
 
   <application
-    android:name=".ComposeExampleApplication"
+    android:name=".DemoApplication"
     android:allowBackup="false"
-    android:label="ReRune Compose Example"
+    android:icon="@mipmap/ic_launcher"
+    android:label="ReRune OTA Demo"
+    android:roundIcon="@mipmap/ic_launcher_round"
     android:supportsRtl="true"
     android:theme="@style/Theme.ReRuneComposeExample">
 

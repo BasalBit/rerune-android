@@ -1,8 +1,22 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="title">Local</string>
-    <string name="body">Local</string>
-    <string name="button">Check for updates</string>
-    <string name="sample_placeholder">Sample number: %1$d text: %2$s</string>
+  <string name="welcome_badge">Localization OTA Demo</string>
+  <string name="welcome_title">Welcome to ReRune</string>
+  <string name="welcome_subtitle">Pull down to fetch the latest published translations.</string>
+  <string name="welcome_pull_hint">Pull to refresh</string>
+  <string name="welcome_locale_label">Current locale</string>
+  <string name="welcome_locale_value">English</string>
+  <string name="welcome_last_synced_label">Last synced</string>
+  <string name="welcome_open_story_cta">Open story</string>
+  <string name="welcome_refresh_state_idle">Pull to refresh</string>
+  <string name="welcome_refresh_state_checking">Checking for updates...</string>
+  <string name="welcome_refresh_state_downloading">Downloading texts...</string>
+  <string name="welcome_refresh_state_applying">Applying translations...</string>
+  <string name="welcome_refresh_state_success">Updated successfully</string>
+  <string name="story_title">Built to adapt</string>
+  <string name="story_body_primary">Words change fast. Your app should keep up without waiting for the next release.</string>
+  <string name="story_body_secondary">ReRune applies published localization updates directly inside your app experience.</string>
+  <string name="story_caption">Live translation content</string>
+  <string name="story_back_cta">Back</string>
+  <string name="story_refresh_cta">Refresh texts again</string>
 </resources>
-    

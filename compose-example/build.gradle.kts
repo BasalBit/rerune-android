@@ -5,7 +5,9 @@ plugins {
   alias(libs.plugins.compose.compiler)
 }
 
-val otaPublishId = providers.gradleProperty("RERUNE_OTA_PUBLISH_ID").get()
+val otaPublishId = providers.gradleProperty("RERUNE_OTA_PUBLISH_ID")
+  .orElse("a68e482cde9e205aae1a4249ed56972d5eb95b34ea3451a8c5f7cf18b9da0d2a")
+  .get()
 
 android {
   namespace = "io.rerune.example.compose"
