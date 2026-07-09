@@ -4,19 +4,22 @@ Public Android showcase repository for the ReRune Android SDK.
 
 This repo demonstrates how to consume the published Maven Central artifacts in a
 real Android app without depending on the SDK source repository.
+It also demonstrates the core OTA localization use case: the app can ship only
+English/default resources while ReRune delivers additional dashboard languages
+after release.
 
 ## Artifacts
 
 Compose:
 
 ```kotlin
-implementation("io.rerune:rerune-android-compose:0.4.1")
+implementation("io.rerune:rerune-android-compose:0.5.0")
 ```
 
 Views:
 
 ```kotlin
-implementation("io.rerune:rerune-android-views:0.4.1")
+implementation("io.rerune:rerune-android-views:0.5.0")
 ```
 
 Both top-layer artifacts expose `io.rerune:rerune-android-core` transitively.
@@ -28,8 +31,10 @@ Both top-layer artifacts expose `io.rerune:rerune-android-core` transitively.
 - `views-example`: classic Android Views integration using native XML and
   `getString(...)`
 
-Both examples ship with a public demo `otaPublishId` so the repo works out of
-the box.
+Both examples ship with a public demo `otaPublishId` that includes German
+dashboard translations. The examples package only English/default resources
+with `androidResources.localeFilters += listOf("en")`, so switching a device to German
+exercises ReRune remote-only language delivery instead of bundled resources.
 
 Override it locally if needed:
 
@@ -98,11 +103,45 @@ override fun attachBaseContext(newBase: Context) {
 titleText.text = getString(R.string.title)
 ```
 
+## Remote-only language flow
+
+ReRune Android SDK `0.5.0` can expose and apply locales that exist in the
+ReRune dashboard even when the APK does not contain compiled
+`values-<locale>` resources.
+
+System language following works without an in-app picker:
+
+1. Install either example app.
+2. Pull to refresh once so the app fetches the ReRune manifest and locale XML.
+3. Set the Android system language to German.
+4. Restart the app. Text resolves from cached ReRune German payloads and falls
+   back to bundled English/default resources for missing keys.
+
+Apps with a language picker can list dashboard locales:
+
+```kotlin
+lifecycleScope.launch {
+  ReRune.availableLocalesFlow.collect { locales ->
+    // locale.localeTag: "de", "pt-BR", ...
+    // locale.isCached: payload is available offline right now
+  }
+}
+```
+
+And apply a remote-only locale explicitly:
+
+```kotlin
+ReRune.setLocaleOverride("de")
+ReRune.setLocaleOverride(null) // follow Android system/context locale again
+```
+
 ## Notes
 
 - The SDK keeps bundled resources as the fallback safety net.
 - Compose redraw is opt-in through `reRuneObserveRevision { ... }`.
 - Views redraw is app-owned; `reRuneOnStringsUpdated(...)` only notifies.
+- OS-level language lists and app-store language metadata still come from the
+  app/platform, not ReRune dashboard state.
 - This repo is a consumer showcase. For SDK source, releases, and internal
   implementation details, see `https://github.com/BasalBit/rerune-android-ota`.
 

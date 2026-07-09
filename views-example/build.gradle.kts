@@ -5,7 +5,7 @@ plugins {
 }
 
 val otaPublishId = providers.gradleProperty("RERUNE_OTA_PUBLISH_ID")
-  .orElse("a68e482cde9e205aae1a4249ed56972d5eb95b34ea3451a8c5f7cf18b9da0d2a")
+  .orElse("22b014db4e8a26ccc1038e6d969fc663ccf90d2931f10ff4fbd7937b1ba69732")
   .get()
 
 android {
@@ -21,6 +21,10 @@ android {
 
     buildConfigField("String", "RERUNE_OTA_PUBLISH_ID", "\"$otaPublishId\"")
   }
+  androidResources {
+    localeFilters += listOf("en")
+  }
+
 
   buildFeatures {
     viewBinding = true
