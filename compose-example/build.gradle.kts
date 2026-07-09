@@ -20,13 +20,8 @@ android {
     versionCode = 1
     versionName = "1.0"
 
-
     buildConfigField("String", "RERUNE_OTA_PUBLISH_ID", "\"$otaPublishId\"")
   }
-  androidResources {
-    localeFilters += listOf("en")
-  }
-
 
   buildFeatures {
     compose = true

@@ -21,10 +21,6 @@ android {
 
     buildConfigField("String", "RERUNE_OTA_PUBLISH_ID", "\"$otaPublishId\"")
   }
-  androidResources {
-    localeFilters += listOf("en")
-  }
-
 
   buildFeatures {
     viewBinding = true

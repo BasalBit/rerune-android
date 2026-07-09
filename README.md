@@ -32,9 +32,9 @@ Both top-layer artifacts expose `io.rerune:rerune-android-core` transitively.
   `getString(...)`
 
 Both examples ship with a public demo `otaPublishId` that includes German
-dashboard translations. The examples package only English/default resources
-with `androidResources.localeFilters += listOf("en")`, so switching a device to German
-exercises ReRune remote-only language delivery instead of bundled resources.
+dashboard translations. The examples keep app string resources in the default
+`values/` directory only, so switching a device to German exercises ReRune
+remote-only language delivery instead of app-bundled German strings.
 
 Override it locally if needed:
 

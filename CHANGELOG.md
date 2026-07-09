@@ -5,7 +5,8 @@
 - Updated both examples to consume ReRune Android SDK `0.5.0`.
 - Updated the public demo `otaPublishId` to the dashboard payload that includes
   remote German translations.
-- Packaged only English/default resources so additional languages are resolved from ReRune.
+- Kept example app string resources in the default `values/` directory so
+  additional app languages are resolved from ReRune.
 
 ## 0.1.1 - 2026-03-30
 
