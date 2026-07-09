@@ -114,7 +114,6 @@
               android:id="@+id/localeValue"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
-              android:text="@string/welcome_locale_value"
               android:textColor="@color/text_primary"
               android:textSize="15sp"
               android:textStyle="bold" />

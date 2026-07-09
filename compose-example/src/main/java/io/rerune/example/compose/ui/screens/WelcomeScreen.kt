@@ -1,5 +1,6 @@
 package io.rerune.example.compose.ui.screens
 
+import android.content.Context
 import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -27,17 +28,20 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.os.ConfigurationCompat
 import io.rerune.example.compose.R
 import io.rerune.example.compose.ui.components.BadgeChip
 import io.rerune.example.compose.ui.components.StatusCard
@@ -47,6 +51,8 @@ import io.rerune.example.compose.ui.theme.BgPrimary
 import io.rerune.example.compose.ui.theme.DemoBackground
 import io.rerune.example.compose.ui.theme.Success
 import io.rerune.example.compose.ui.theme.TextSecondary
+import java.util.Locale
+import rerune.ReRune
 import rerune.compose.reRuneObserveRevision
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -59,6 +65,9 @@ fun WelcomeScreen(
   onOpenStory: () -> Unit,
 ) {
   reRuneObserveRevision {
+    val context = LocalContext.current
+    val localeOverride = ReRune.localeOverrideFlow.collectAsState().value
+    val resolvedLocaleCode = resolvedLocaleCode(context, localeOverride)
     val pullRefreshState = rememberPullRefreshState(
       refreshing = isRefreshing,
       onRefresh = onRefresh,
@@ -133,7 +142,7 @@ fun WelcomeScreen(
             ) {
               StatusCard(
                 items = listOf(
-                  StatusItem(R.string.welcome_locale_label, R.string.welcome_locale_value),
+                  StatusItem(labelResId = R.string.welcome_locale_label, value = resolvedLocaleCode),
                   StatusItem(labelResId = R.string.welcome_last_synced_label, value = lastSyncedText),
                 ),
               )
@@ -174,4 +183,16 @@ fun WelcomeScreen(
       )
     }
   }
+}
+
+private fun resolvedLocaleCode(context: Context, localeOverride: String?): String {
+  if (!localeOverride.isNullOrBlank()) {
+    return localeOverride
+  }
+
+  val locale = ConfigurationCompat.getLocales(context.resources.configuration)[0] ?: Locale.getDefault()
+  return locale.toLanguageTag()
+    .takeUnless { it.isBlank() || it == "und" }
+    ?: locale.language.takeIf { it.isNotBlank() }
+    ?: "und"
 }

@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.os.ConfigurationCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
@@ -84,7 +85,7 @@ class MainActivity : AppCompatActivity() {
     binding.subtitleText.text = getString(R.string.welcome_subtitle)
 
     binding.localeLabel.text = getString(R.string.welcome_locale_label)
-    binding.localeValue.text = getString(R.string.welcome_locale_value)
+    binding.localeValue.text = resolvedLocaleCode()
     binding.lastSyncedLabel.text = getString(R.string.welcome_last_synced_label)
     binding.lastSyncedValue.text = currentTimestamp()
 
@@ -141,5 +142,18 @@ class MainActivity : AppCompatActivity() {
   private fun currentTimestamp(): String {
     val formatter = SimpleDateFormat("MMM d, yyyy h:mm a", Locale.getDefault())
     return formatter.format(Date())
+  }
+
+  private fun resolvedLocaleCode(): String {
+    val localeOverride = ReRune.localeOverrideFlow.value
+    if (!localeOverride.isNullOrBlank()) {
+      return localeOverride
+    }
+
+    val locale = ConfigurationCompat.getLocales(resources.configuration)[0] ?: Locale.getDefault()
+    return locale.toLanguageTag()
+      .takeUnless { it.isBlank() || it == "und" }
+      ?: locale.language.takeIf { it.isNotBlank() }
+      ?: "und"
   }
 }

@@ -4,7 +4,6 @@
   <string name="welcome_title">Welcome to ReRune</string>
   <string name="welcome_subtitle">Pull down to fetch the latest published translations.</string>
   <string name="welcome_locale_label">Current locale</string>
-  <string name="welcome_locale_value">English</string>
   <string name="welcome_last_synced_label">Last synced</string>
   <string name="welcome_open_story_cta">Open story</string>
   <string name="welcome_refresh_state_idle">Pull to refresh</string>
