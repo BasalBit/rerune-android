@@ -3,8 +3,8 @@
 Public Android showcase repository for the ReRune Android SDK.
 
 This repo demonstrates how to consume the published Maven Central artifacts in a
-real Android app without depending on the SDK source repository.
-It also demonstrates the core OTA localization use case: the app can ship only
+real Android showcase app.
+It demonstrates the core OTA localization use case: the app can ship only
 default app strings while ReRune delivers additional dashboard languages after
 release.
 
@@ -153,8 +153,7 @@ ReRune.setLocaleOverride(null) // follow Android system/context locale again
 - Views redraw is app-owned; `reRuneOnStringsUpdated(...)` only notifies.
 - OS-level language lists and app-store language metadata still come from the
   app/platform, not ReRune dashboard state.
-- This repo is a consumer showcase. For SDK source, releases, and internal
-  implementation details, see `https://github.com/BasalBit/rerune-android-ota`.
+- This repo is a showcase app repository.
 
 ## Run locally
 
