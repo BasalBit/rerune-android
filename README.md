@@ -5,8 +5,13 @@ Public Android showcase repository for the ReRune Android SDK.
 This repo demonstrates how to consume the published Maven Central artifacts in a
 real Android app without depending on the SDK source repository.
 It also demonstrates the core OTA localization use case: the app can ship only
-English/default resources while ReRune delivers additional dashboard languages
-after release.
+default app strings while ReRune delivers additional dashboard languages after
+release.
+
+The important ReRune OTA behavior shown here is remote-language delivery:
+German is available from the dashboard payload even though the example apps do
+not include app-owned `values-de/strings.xml` files. After the manifest and
+locale payload are fetched, no new app-store build is needed just to add German.
 
 ## Artifacts
 
@@ -109,6 +114,10 @@ ReRune Android SDK `0.5.0` can expose and apply locales that exist in the
 ReRune dashboard even when the APK does not contain compiled
 `values-<locale>` resources.
 
+The dashboard manifest is the runtime source of truth for ReRune locales. The
+SDK fetches every manifest locale it can reach, not only locales already present
+in app resources.
+
 System language following works without an in-app picker:
 
 1. Install either example app.
@@ -138,6 +147,8 @@ ReRune.setLocaleOverride(null) // follow Android system/context locale again
 ## Notes
 
 - The SDK keeps bundled resources as the fallback safety net.
+- New string resource keys still require an app release because Android
+  `R.string.*` ids are compiled into the app.
 - Compose redraw is opt-in through `reRuneObserveRevision { ... }`.
 - Views redraw is app-owned; `reRuneOnStringsUpdated(...)` only notifies.
 - OS-level language lists and app-store language metadata still come from the
