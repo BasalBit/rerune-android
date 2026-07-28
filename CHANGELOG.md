@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.4 - 2026-07-28
+
+- Updated both examples to consume ReRune Android SDK `0.14.0`.
+- Restored the MIT license in line with the SDK release.
+
 ## 0.1.3 - 2026-07-28
 
 - Updated both examples to consume ReRune Android SDK `0.13.0`.
