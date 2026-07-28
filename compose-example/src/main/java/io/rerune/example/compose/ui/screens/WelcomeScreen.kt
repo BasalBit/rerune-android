@@ -28,7 +28,6 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -66,8 +65,7 @@ fun WelcomeScreen(
 ) {
   reRuneObserveRevision {
     val context = LocalContext.current
-    val localeOverride = ReRune.localeOverrideFlow.collectAsState().value
-    val resolvedLocaleCode = resolvedLocaleCode(context, localeOverride)
+    val resolvedLocaleCode = resolvedLocaleCode(context)
     val pullRefreshState = rememberPullRefreshState(
       refreshing = isRefreshing,
       onRefresh = onRefresh,
@@ -185,11 +183,7 @@ fun WelcomeScreen(
   }
 }
 
-private fun resolvedLocaleCode(context: Context, localeOverride: String?): String {
-  if (!localeOverride.isNullOrBlank()) {
-    return localeOverride
-  }
-
+private fun resolvedLocaleCode(context: Context): String {
   val locale = ConfigurationCompat.getLocales(context.resources.configuration)[0] ?: Locale.getDefault()
   return locale.toLanguageTag()
     .takeUnless { it.isBlank() || it == "und" }

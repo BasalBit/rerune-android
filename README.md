@@ -18,13 +18,13 @@ locale payload are fetched, no new app-store build is needed just to add German.
 Compose:
 
 ```kotlin
-implementation("io.rerune:rerune-android-compose:0.5.0")
+implementation("io.rerune:rerune-android-compose:0.13.0")
 ```
 
 Views:
 
 ```kotlin
-implementation("io.rerune:rerune-android-views:0.5.0")
+implementation("io.rerune:rerune-android-views:0.13.0")
 ```
 
 Both top-layer artifacts expose `io.rerune:rerune-android-core` transitively.
@@ -110,7 +110,7 @@ titleText.text = getString(R.string.title)
 
 ## Remote-only language flow
 
-ReRune Android SDK `0.5.0` can expose and apply locales that exist in the
+ReRune Android SDK `0.13.0` can expose and apply locales that exist in the
 ReRune dashboard even when the APK does not contain compiled
 `values-<locale>` resources.
 
@@ -137,12 +137,9 @@ lifecycleScope.launch {
 }
 ```
 
-And apply a remote-only locale explicitly:
-
-```kotlin
-ReRune.setLocaleOverride("de")
-ReRune.setLocaleOverride(null) // follow Android system/context locale again
-```
+Locale selection follows Android's system or per-app locale configuration. On
+Android 14 and newer, the SDK also publishes dashboard locales to Android's
+dynamic locale configuration after fetching the manifest.
 
 ## Notes
 
@@ -164,4 +161,5 @@ ReRune.setLocaleOverride(null) // follow Android system/context locale again
 
 ## License
 
-MIT. See `LICENSE`.
+Proprietary and confidential. See `LICENSE` and the
+[commercial license terms](https://rerune.io/terms).

@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.3 - 2026-07-28
+
+- Updated both examples to consume ReRune Android SDK `0.13.0`.
+- Migrated locale display code to the SDK's context-based locale resolution.
+- Replaced the MIT license with BasalBit GmbH's proprietary license.
+
 ## 0.1.2 - 2026-07-09
 
 - Updated both examples to consume ReRune Android SDK `0.5.0`.

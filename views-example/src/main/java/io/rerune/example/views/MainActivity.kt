@@ -145,11 +145,6 @@ class MainActivity : AppCompatActivity() {
   }
 
   private fun resolvedLocaleCode(): String {
-    val localeOverride = ReRune.localeOverrideFlow.value
-    if (!localeOverride.isNullOrBlank()) {
-      return localeOverride
-    }
-
     val locale = ConfigurationCompat.getLocales(resources.configuration)[0] ?: Locale.getDefault()
     return locale.toLanguageTag()
       .takeUnless { it.isBlank() || it == "und" }
