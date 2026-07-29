@@ -1,12 +1,18 @@
-# rerune-android
+# ReRune Android OTA Localization SDK
 
-Public Android showcase repository for the ReRune Android SDK.
+[![Maven Central](https://img.shields.io/maven-central/v/io.rerune/rerune-android-compose?label=Maven%20Central)](https://central.sonatype.com/artifact/io.rerune/rerune-android-compose)
+[![Android CI](https://github.com/BasalBit/rerune-android/actions/workflows/android.yml/badge.svg)](https://github.com/BasalBit/rerune-android/actions/workflows/android.yml)
+![Android API 21+](https://img.shields.io/badge/Android-API%2021%2B-3DDC84?logo=android&logoColor=white)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-This repo demonstrates how to consume the published Maven Central artifacts in a
-real Android showcase app.
-It demonstrates the core OTA localization use case: the app can ship only
-default app strings while ReRune delivers additional dashboard languages after
-release.
+Update Android translations at runtime without publishing a new app version.
+ReRune integrates with native `stringResource(...)`, `getString(...)`, Jetpack
+Compose, Android Views, and XML string resources.
+
+This public repository contains runnable integration examples and documentation
+for the ReRune Android SDK artifacts published on Maven Central. It demonstrates
+the core OTA localization use case: an app can ship only default app strings
+while ReRune delivers additional dashboard languages after release.
 
 The important ReRune OTA behavior shown here is remote-language delivery:
 German is available from the dashboard payload even though the example apps do
