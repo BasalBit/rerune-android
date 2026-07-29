@@ -1,26 +1,27 @@
-# Signal Forge
+# Platform Continuum
 
-Signal Forge treats software as a living system of controlled pulses: dark
-fields establish calm, while precise amber signals reveal where change enters
-and travels. Space is structural rather than decorative. Every plane, crop, and
-line should feel deliberately engineered and meticulously crafted.
+Platform Continuum treats a product family as one visual system expressed
+through disciplined variations. A deep navy field establishes continuity while
+one warm accent identifies the active platform. Every surface is meticulously
+crafted so related artifacts feel unmistakably connected without becoming
+mechanical copies.
 
-Color carries hierarchy. Near-black navy creates depth, warm amber marks the
-active signal, and restrained white typography provides clarity without visual
-noise. The palette should feel native to a sophisticated developer tool, with
-painstaking contrast calibration and master-level restraint.
+Space divides into two confident territories: a quiet editorial statement and
+a luminous product window. The division is balanced through scale rather than
+hard borders. Painstaking alignment makes the composition feel stable at full
+resolution and instantly legible when reduced to a small social card.
 
-Scale communicates confidence. A small brand mark establishes authorship, a
-single large statement anchors the composition, and the product interface acts
-as evidence rather than explanation. Repetition appears only in subtle status
-lines and compact capability labels, producing rhythm without clutter.
+Color communicates role. White carries the product name, amber marks the
+platform and live actions, and muted blue-gray supports compatibility details.
+The narrow palette is calibrated with master-level restraint so the interface
+remains rich without competing with the message.
 
-The composition balances a quiet editorial field against one precisely framed
-software surface. The interface is cropped to protect private context and to
-focus attention on translation keys. Every boundary, shadow, and alignment
-should show the care of countless refinements by an expert visual craftsman.
+The product view is evidence, not decoration. It is cropped to remove private
+context and emphasize the translation-key workflow, then framed with subtle
+light and depth. This treatment should feel like the product of countless hours
+of expert refinement rather than a raw screenshot.
 
-Typography remains sparse and exact. Words function as visual coordinates:
-product, category, outcome, compatibility. Nothing competes with the central
-idea, and every element retains generous breathing room at small social-card
-sizes.
+Typography stays sparse: identity, category, compatibility. A large symbol
+anchors the rhythm, while exact spacing and controlled weight changes make each
+word part of the visual architecture. Nothing is ornamental; every element
+earns its place through clarity and painstaking craftsmanship.
