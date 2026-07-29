@@ -7,7 +7,7 @@ Compose, Android Views, and XML string resources.
 This public repository contains runnable integration examples and documentation
 for the ReRune Android SDK artifacts published on Maven Central.
 
-![ReRune for Android — OTA localization for native apps](.github/social-preview.png)
+![ReRune for Android: OTA localization for native apps](.github/social-preview.png)
 
 [![Maven Central](https://img.shields.io/maven-central/v/io.rerune/rerune-android-compose?label=Maven%20Central)](https://central.sonatype.com/artifact/io.rerune/rerune-android-compose)
 [![Android CI](https://github.com/BasalBit/rerune-android/actions/workflows/android.yml/badge.svg)](https://github.com/BasalBit/rerune-android/actions/workflows/android.yml)
