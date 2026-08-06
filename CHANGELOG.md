@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.5 (2026-08-06)
+
+- Updated both examples to consume ReRune Android SDK `1.0.1`.
+
 ## 0.1.4 (2026-07-28)
 
 - Updated both examples to consume ReRune Android SDK `0.14.0`.

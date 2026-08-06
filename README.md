@@ -28,13 +28,13 @@ locale payload are fetched, no new app-store build is needed just to add German.
 Compose:
 
 ```kotlin
-implementation("io.rerune:rerune-android-compose:0.14.0")
+implementation("io.rerune:rerune-android-compose:1.0.1")
 ```
 
 Views:
 
 ```kotlin
-implementation("io.rerune:rerune-android-views:0.14.0")
+implementation("io.rerune:rerune-android-views:1.0.1")
 ```
 
 Both top-layer artifacts expose `io.rerune:rerune-android-core` transitively.
@@ -120,7 +120,7 @@ titleText.text = getString(R.string.title)
 
 ## Remote-only language flow
 
-ReRune Android SDK `0.14.0` can expose and apply locales that exist in the
+ReRune Android SDK `1.0.1` can expose and apply locales that exist in the
 ReRune dashboard even when the APK does not contain compiled
 `values-<locale>` resources.
 
