@@ -7,7 +7,7 @@
     android:name=".DemoApplication"
     android:allowBackup="false"
     android:icon="@mipmap/ic_launcher"
-    android:label="ReRune OTA Views Demo"
+    android:label="@string/app_name"
     android:roundIcon="@mipmap/ic_launcher_round"
     android:supportsRtl="true"
     android:theme="@style/Theme.ReRuneViewsExample">
@@ -22,9 +22,6 @@
       </intent-filter>
     </activity>
 
-    <activity
-      android:name=".StoryActivity"
-      android:exported="false" />
   </application>
 
 </manifest>

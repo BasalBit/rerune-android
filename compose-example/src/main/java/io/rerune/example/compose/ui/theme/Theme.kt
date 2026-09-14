@@ -1,78 +1,43 @@
 package io.rerune.example.compose.ui.theme
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxScope
-import androidx.compose.foundation.layout.offset
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Typography
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.sp
+import io.rerune.example.compose.R
 
-private val ReRuneDarkColorScheme = darkColorScheme(
-  primary = AccentPrimary,
-  onPrimary = BgPrimary,
-  secondary = TextSecondary,
-  tertiary = AccentStrong,
-  background = BgPrimary,
-  onBackground = TextPrimary,
-  surface = BgSecondary,
-  onSurface = TextPrimary,
-  outline = BorderSubtle,
+internal val InterfaceFont = FontFamily(
+  Font(R.font.instrument_sans_regular), Font(R.font.instrument_sans_bold, FontWeight.Bold),
+)
+internal val ReaderFont = FontFamily(Font(R.font.lora_regular))
+private fun type(size: Int, height: Int, bold: Boolean = false) = TextStyle(
+  fontFamily = InterfaceFont, fontSize = size.sp, lineHeight = height.sp,
+  fontWeight = if (bold) FontWeight.Bold else FontWeight.Normal,
 )
 
 @Composable
-fun ReRuneDemoTheme(content: @Composable () -> Unit) {
+internal fun ChapterTheme(content: @Composable () -> Unit) {
   MaterialTheme(
-    colorScheme = ReRuneDarkColorScheme,
+    colorScheme = darkColorScheme(
+      primary = AccentPrimary, onPrimary = BgPrimary, secondary = TextSecondary,
+      background = BgPrimary, onBackground = TextPrimary,
+      surface = BgSecondary, onSurface = TextPrimary, onSurfaceVariant = TextSecondary,
+      surfaceTint = BgSecondary,
+      outline = BorderSubtle, secondaryContainer = AccentPrimary.copy(alpha = .12f),
+      onSecondaryContainer = AccentPrimary,
+    ),
+    typography = Typography(
+      displaySmall = type(34, 38, true).copy(letterSpacing = (-1.2).sp),
+      headlineMedium = type(26, 32, true).copy(letterSpacing = (-.6).sp),
+      titleLarge = type(22, 28, true), titleMedium = type(17, 23, true),
+      bodyLarge = type(16, 24), bodyMedium = type(14, 21), bodySmall = type(12, 18),
+      labelLarge = type(16, 20, true), labelMedium = type(13, 18), labelSmall = type(12, 16, true),
+    ),
     content = content,
   )
-}
-
-@Composable
-fun DemoBackground(
-  modifier: Modifier = Modifier,
-  content: @Composable BoxScope.() -> Unit,
-) {
-  Box(
-    modifier = modifier.background(
-      brush = Brush.verticalGradient(
-        colors = listOf(BgSecondary, BgPrimary, BgTertiary),
-      ),
-    ),
-  ) {
-    Box(
-      modifier = Modifier
-        .align(Alignment.TopStart)
-        .offset(x = (-72).dp, y = (-56).dp)
-        .size(280.dp)
-        .background(
-          brush = Brush.radialGradient(
-            colors = listOf(Color(0xFF27406F).copy(alpha = 0.28f), Color.Transparent),
-          ),
-          shape = CircleShape,
-        ),
-    )
-
-    Box(
-      modifier = Modifier
-        .align(Alignment.TopEnd)
-        .offset(x = 88.dp, y = (-24).dp)
-        .size(300.dp)
-        .background(
-          brush = Brush.radialGradient(
-            colors = listOf(AccentPrimary.copy(alpha = 0.20f), Color.Transparent),
-          ),
-          shape = CircleShape,
-        ),
-    )
-
-    content()
-  }
 }

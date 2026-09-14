@@ -1,174 +1,132 @@
-# ReRune Android OTA Localization SDK
+# ReRune Android examples
 
-Update Android translations at runtime without publishing a new app version.
-ReRune integrates with native `stringResource(...)`, `getString(...)`, Jetpack
-Compose, Android Views, and XML string resources.
+Standalone native Android apps for trying the published ReRune SDK. Clone this
+repository and open it in Android Studio, or build with the included Gradle
+wrapper. No ReRune source checkout, local SDK build, or Maven Local setup is
+required.
 
-This public repository contains runnable integration examples and documentation
-for the ReRune Android SDK artifacts published on Maven Central.
+| Example | Published dependency |
+| --- | --- |
+| `compose-example` | `io.rerune:rerune-android-compose:1.1.1` |
+| `views-example` | `io.rerune:rerune-android-views:1.1.1` |
 
-![ReRune for Android: OTA localization for native apps](.github/social-preview.png)
+Both resolve from Maven Central. Versions are pinned in
+[the version catalog](gradle/libs.versions.toml). These are Kotlin Android apps;
+the Flutter package on pub.dev is not used here.
 
-[![Maven Central](https://img.shields.io/maven-central/v/io.rerune/rerune-android-compose?label=Maven%20Central)](https://central.sonatype.com/artifact/io.rerune/rerune-android-compose)
-[![Android CI](https://github.com/BasalBit/rerune-android/actions/workflows/android.yml/badge.svg)](https://github.com/BasalBit/rerune-android/actions/workflows/android.yml)
-![Android API 21+](https://img.shields.io/badge/Android-API%2021%2B-3DDC84?logo=android&logoColor=white)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+The running Compose and native Views apps are the design reference. Review UI
+changes in the apps; this repository keeps no reference screenshots or golden
+images.
 
-This repository demonstrates the core OTA localization use case: an app can
-ship only default app strings while ReRune delivers additional dashboard
-languages after release.
+## Build and run
 
-The important ReRune OTA behavior shown here is remote-language delivery:
-German is available from the dashboard payload even though the example apps do
-not include app-owned `values-de/strings.xml` files. After the manifest and
-locale payload are fetched, no new app-store build is needed just to add German.
+With Android Studio installed:
 
-## Artifacts
+1. Open this repository's root folder and let Gradle sync.
+2. Select `compose-example` or `views-example` and a device or emulator.
+3. Click **Run**.
 
-Compose:
+The public demo is already configured. No account, API key, ReRune source,
+resource generation, or configuration changes are needed to try it. Gradle
+downloads the published SDK from Maven Central. Android Studio may prompt you
+to install Android SDK platform 36 and build tools on first use.
 
-```kotlin
-implementation("io.rerune:rerune-android-compose:1.0.1")
-```
+For command-line builds, use JDK 17 and Android SDK platform 36. Set `JAVA_HOME`
+and either set `ANDROID_HOME` or configure `sdk.dir` in an untracked
+`local.properties`.
 
-Views:
-
-```kotlin
-implementation("io.rerune:rerune-android-views:1.0.1")
-```
-
-Both top-layer artifacts expose `io.rerune:rerune-android-core` transitively.
-
-## Example apps
-
-- `compose-example`: Jetpack Compose integration using native
-  `stringResource(...)`
-- `views-example`: classic Android Views integration using native XML and
-  `getString(...)`
-
-Both examples ship with a public demo `otaPublishId` that includes German
-dashboard translations. The examples keep app string resources in the default
-`values/` directory only, so switching a device to German exercises ReRune
-remote-only language delivery instead of app-bundled German strings.
-
-Override it locally if needed:
+Run from the repository root:
 
 ```bash
-./gradlew :compose-example:assembleDebug -PRERUNE_OTA_PUBLISH_ID=replace-me
-./gradlew :views-example:assembleDebug -PRERUNE_OTA_PUBLISH_ID=replace-me
+./gradlew :compose-example:assembleDebug :views-example:assembleDebug
 ```
 
-or:
-
-```bash
-RERUNE_OTA_PUBLISH_ID=replace-me ./gradlew :compose-example:assembleDebug
-```
-
-## Compose quick start
-
-```kotlin
-class App : Application() {
-  override fun onCreate() {
-    super.onCreate()
-    ReRune.setup(
-      app = this,
-      otaPublishId = BuildConfig.RERUNE_OTA_PUBLISH_ID,
-    )
-  }
-}
-```
-
-```kotlin
-override fun attachBaseContext(newBase: Context) {
-  super.attachBaseContext(newBase.reRune())
-}
-```
-
-```kotlin
-@Composable
-fun ExampleScreen() {
-  reRuneObserveRevision {
-    Text(text = stringResource(R.string.title))
-  }
-}
-```
-
-## Views quick start
-
-```kotlin
-class App : Application() {
-  override fun onCreate() {
-    super.onCreate()
-    ReRune.setup(
-      app = this,
-      otaPublishId = BuildConfig.RERUNE_OTA_PUBLISH_ID,
-    )
-    ReRuneViews.install(this)
-  }
-}
-```
-
-```kotlin
-override fun attachBaseContext(newBase: Context) {
-  super.attachBaseContext(newBase.reRune())
-}
-```
-
-```kotlin
-titleText.text = getString(R.string.title)
-```
-
-## Remote-only language flow
-
-ReRune Android SDK `1.0.1` can expose and apply locales that exist in the
-ReRune dashboard even when the APK does not contain compiled
-`values-<locale>` resources.
-
-The dashboard manifest is the runtime source of truth for ReRune locales. The
-SDK fetches every manifest locale it can reach, not only locales already present
-in app resources.
-
-System language following works without an in-app picker:
-
-1. Install either example app.
-2. Pull to refresh once so the app fetches the ReRune manifest and locale XML.
-3. Set the Android system language to German.
-4. Restart the app. Text resolves from cached ReRune German payloads and falls
-   back to bundled English/default resources for missing keys.
-
-Apps with a language picker can list dashboard locales:
-
-```kotlin
-lifecycleScope.launch {
-  ReRune.availableLocalesFlow.collect { locales ->
-    // locale.localeTag: "de", "pt-BR", ...
-    // locale.isCached: payload is available offline right now
-  }
-}
-```
-
-Locale selection follows Android's system or per-app locale configuration. On
-Android 14 and newer, the SDK also publishes dashboard locales to Android's
-dynamic locale configuration after fetching the manifest.
-
-## Notes
-
-- The SDK keeps bundled resources as the fallback safety net.
-- New string resource keys still require an app release because Android
-  `R.string.*` ids are compiled into the app.
-- Compose redraw is opt-in through `reRuneObserveRevision { ... }`.
-- Views redraw is app-owned; `reRuneOnStringsUpdated(...)` only notifies.
-- OS-level language lists and app-store language metadata still come from the
-  app/platform, not ReRune dashboard state.
-- This repo is a showcase app repository.
-
-## Run locally
+With an Android device or emulator connected:
 
 ```bash
 ./gradlew :compose-example:installDebug
 ./gradlew :views-example:installDebug
 ```
 
-## License
+Both apps are named ReRune, retain the ReRune icon, and support Android API 21
+and newer. Release assemblies are unsigned.
 
-MIT. See `LICENSE`.
+## Try ReRune
+
+The reading apps include three stories, chapter progress, bookmarks, discovery
+filters, and a language picker. Reading state lasts for the app session and
+survives locale changes. Reading settings offer persistent Main/VIP selection
+and a refresh action.
+
+Toggle VIP in reading settings, then close the sheet to see the library heading
+change. Choose French or Albanian to try a language supplied entirely by ReRune.
+
+Both apps use the public OTA ID in [gradle.properties](gradle.properties):
+
+```text
+03141fc5dde6e5a1f9debf99ee68bbb125dc830412fdfb85af4834d3de341b3b
+```
+
+To try your own target, override it at build time:
+
+```bash
+./gradlew :compose-example:assembleDebug :views-example:assembleDebug -PRERUNE_OTA_PUBLISH_ID=replace-me
+```
+
+SDK `1.1.1` supports the public target's placeholder format. Both examples
+successfully downloaded all seven published locales and reported an unchanged
+second refresh on September 14, 2026. English, German, Spanish, Italian, and
+Portuguese are also bundled for offline fallback.
+
+## Integration code
+
+Each `DemoApplication` calls `ReRune.setup(...)` with the generated
+`BuildConfig.RERUNE_OTA_PUBLISH_ID`. Views also calls `ReRuneViews.install(this)`.
+Both activities wrap their base context with `newBase.reRune()` and use native
+string and plural resources.
+
+Compose observes updates with `reRuneObserveRevision { ... }`. Views uses
+`reRuneOnStringsUpdated(lifecycleScope) { ... }` to rebind existing widgets.
+The settings dialog stays attached during a text revision.
+
+`Storybook.kt` contains the app's reading state and delegates refresh and variant
+selection to `ReRune.checkForUpdates()`, `ReRune.getVariant()`, and
+`ReRune.setVariant(variant, persist = true)`. A non-null SDK error message is
+reported as failure even when the SDK status is `Updated` or `NoChange`.
+
+## Tests
+
+```bash
+./gradlew :compose-example:testDebugUnitTest :views-example:testDebugUnitTest
+./gradlew :compose-example:lint :views-example:lint
+```
+
+Model and Robolectric UI tests cover reading state, locale changes,
+and Main/VIP revisions. Test-only cache fixtures use the published SDK's public
+interfaces. They do not demonstrate live delivery. Tests assert behavior without
+writing screenshots. Reports go under each module's ignored `build/reports/` directory.
+
+To check real delivery through the published SDK and configured OTA ID:
+
+```bash
+./gradlew :compose-example:testDebugUnitTest :views-example:testDebugUnitTest -Prerune.liveDelivery=true --continue
+```
+
+This opt-in check writes `build/reports/rerune-delivery.txt` in each module.
+It requires network access and expects an initial update followed by an
+unchanged refresh. It also checks live Main/VIP headings, native placeholder
+formatting, and French text that is not bundled in either app.
+
+## Maintaining bundled translations
+
+Both apps commit native Android fallback resources for English, German, Spanish,
+Italian, and Portuguese under `src/main/res/values*/strings.xml`. ReRune supplies
+OTA text. Preserve existing translation keys, native plural quantities, and typed
+positional arguments when updating the bundled XML. No Python generator or
+separate catalog copy is required.
+
+## Licenses
+
+The APKs merge the Core and UI SDK MIT notices in `META-INF/LICENSE`.
+Instrument Sans and Lora font licenses are bundled in each app's
+`src/main/assets/licenses/`. Repository license: [MIT](LICENSE).

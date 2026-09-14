@@ -28,5 +28,16 @@ jobs:
       - name: Make Gradle wrapper executable
         run: chmod +x ./gradlew
 
-      - name: Build showcase apps
-        run: ./gradlew --no-daemon :compose-example:assembleDebug :views-example:assembleDebug
+      - name: Build and verify ReRune examples
+        run: >-
+          ./gradlew --no-daemon
+          :compose-example:assembleDebug :compose-example:assembleRelease
+          :views-example:assembleDebug :views-example:assembleRelease
+          :compose-example:lint :views-example:lint
+          :compose-example:testDebugUnitTest :views-example:testDebugUnitTest
+
+      - name: Verify public demo delivery
+        run: >-
+          ./gradlew --no-daemon
+          :compose-example:testDebugUnitTest :views-example:testDebugUnitTest
+          -Prerune.liveDelivery=true --continue

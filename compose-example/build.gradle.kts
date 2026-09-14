@@ -5,9 +5,7 @@ plugins {
   alias(libs.plugins.compose.compiler)
 }
 
-val otaPublishId = providers.gradleProperty("RERUNE_OTA_PUBLISH_ID")
-  .orElse("22b014db4e8a26ccc1038e6d969fc663ccf90d2931f10ff4fbd7937b1ba69732")
-  .get()
+val otaPublishId = providers.gradleProperty("RERUNE_OTA_PUBLISH_ID").get()
 
 android {
   namespace = "io.rerune.example.compose"
@@ -28,8 +26,12 @@ android {
     buildConfig = true
   }
 
-  composeOptions {
-    kotlinCompilerExtensionVersion = "1.5.14"
+  packaging {
+    resources {
+      // Core and Compose both ship their license. Preserve every notice in the APK.
+      excludes -= "/META-INF/LICENSE"
+      merges += "META-INF/LICENSE"
+    }
   }
 
   compileOptions {
@@ -42,6 +44,10 @@ android {
       jvmTarget = JvmTarget.JVM_17
     }
   }
+
+  testOptions {
+    unitTests.isIncludeAndroidResources = true
+  }
 }
 
 dependencies {
@@ -49,11 +55,17 @@ dependencies {
 
   implementation(platform(libs.compose.bom))
   implementation(libs.activity.compose)
+  implementation(libs.appcompat)
   implementation(libs.compose.ui)
-  implementation(libs.compose.ui.tooling.preview)
-  implementation(libs.compose.material)
   implementation(libs.compose.material3)
   implementation(libs.lifecycle.runtime.ktx)
+  implementation(libs.lifecycle.viewmodel.ktx)
 
   debugImplementation(libs.compose.ui.tooling)
+
+  testImplementation(libs.junit)
+  testImplementation(libs.coroutines.test)
+  testImplementation(libs.robolectric)
+  testImplementation(libs.compose.ui.test.junit4)
+  debugImplementation(libs.compose.ui.test.manifest)
 }

@@ -4,9 +4,7 @@ plugins {
   alias(libs.plugins.android.application)
 }
 
-val otaPublishId = providers.gradleProperty("RERUNE_OTA_PUBLISH_ID")
-  .orElse("22b014db4e8a26ccc1038e6d969fc663ccf90d2931f10ff4fbd7937b1ba69732")
-  .get()
+val otaPublishId = providers.gradleProperty("RERUNE_OTA_PUBLISH_ID").get()
 
 android {
   namespace = "io.rerune.example.views"
@@ -27,6 +25,18 @@ android {
     buildConfig = true
   }
 
+  packaging {
+    resources {
+      // Core and Views both ship their license. Preserve every notice in the APK.
+      excludes -= "/META-INF/LICENSE"
+      merges += "META-INF/LICENSE"
+    }
+  }
+
+  testOptions {
+    unitTests.isIncludeAndroidResources = true
+  }
+
   compileOptions {
     sourceCompatibility = JavaVersion.VERSION_17
     targetCompatibility = JavaVersion.VERSION_17
@@ -45,6 +55,11 @@ dependencies {
   implementation(libs.core.ktx)
   implementation(libs.appcompat)
   implementation(libs.lifecycle.runtime.ktx)
-  implementation(libs.swipe.refresh.layout)
+  implementation(libs.lifecycle.viewmodel.ktx)
   implementation(libs.material)
+
+  testImplementation(libs.junit)
+  testImplementation(libs.coroutines.test)
+  testImplementation(libs.robolectric)
+  testImplementation(libs.androidx.test.core)
 }

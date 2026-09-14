@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <item name="chapter_library" type="id" />
+  <item name="chapter_discover" type="id" />
+  <item name="chapter_saved" type="id" />
+  <style name="ChapterNavigationText" parent="TextAppearance.Material3.LabelMedium">
+    <item name="fontFamily">@font/instrument_sans_bold</item>
+    <item name="android:fontFamily">@font/instrument_sans_bold</item>
+    <item name="android:textSize">12sp</item>
+  </style>
+  <style name="ChapterBottomSheet" parent="ThemeOverlay.Material3.BottomSheetDialog">
+    <item name="colorSurface">@color/bg_secondary</item>
+    <item name="colorOnSurface">@color/text_primary</item>
+    <item name="colorPrimary">@color/accent_primary</item>
+    <item name="colorOnPrimary">@color/bg_primary</item>
+    <item name="android:fontFamily">@font/instrument_sans_regular</item>
+  </style>
+</resources>

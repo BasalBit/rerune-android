@@ -11,7 +11,7 @@ class DemoApplication : Application() {
     ReRune.setup(
       app = this,
       otaPublishId = BuildConfig.RERUNE_OTA_PUBLISH_ID,
-      logLevel = ReRuneLogLevel.Info,
+      logLevel = ReRuneLogLevel.Verbose,
       updatePolicy = ReRuneUpdatePolicy(periodicIntervalInDays = 1),
     )
   }

@@ -1,14 +1,18 @@
 [versions]
 agp = "9.0.1"
 kgp = "2.2.10"
-rerune = "1.0.1"
+rerune = "1.1.1"
 composeBom = "2024.06.00"
 activityCompose = "1.9.1"
 lifecycle = "2.8.4"
-appcompat = "1.7.0"
+appcompat = "1.7.1"
 coreKtx = "1.13.1"
-swipeRefresh = "1.1.0"
 material = "1.12.0"
+
+junit = "4.13.2"
+coroutines = "1.8.1"
+robolectric = "4.16"
+androidxTest = "1.6.1"
 
 [libraries]
 rerune-compose = { module = "io.rerune:rerune-android-compose", version.ref = "rerune" }
@@ -17,14 +21,19 @@ compose-bom = { module = "androidx.compose:compose-bom", version.ref = "composeB
 activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
 compose-ui = { module = "androidx.compose.ui:ui" }
 compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
-compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
-compose-material = { module = "androidx.compose.material:material" }
 compose-material3 = { module = "androidx.compose.material3:material3" }
 lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycle" }
 core-ktx = { module = "androidx.core:core-ktx", version.ref = "coreKtx" }
 appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
-swipe-refresh-layout = { module = "androidx.swiperefreshlayout:swiperefreshlayout", version.ref = "swipeRefresh" }
 material = { module = "com.google.android.material:material", version.ref = "material" }
+
+lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
+junit = { module = "junit:junit", version.ref = "junit" }
+coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
+robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
+androidx-test-core = { module = "androidx.test:core", version.ref = "androidxTest" }
+compose-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4" }
+compose-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
