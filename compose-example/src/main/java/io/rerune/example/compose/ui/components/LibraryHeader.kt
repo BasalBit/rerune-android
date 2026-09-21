@@ -77,7 +77,13 @@ internal fun LanguageMenu(onLocale: (String?) -> Unit) {
 }
 
 @Composable
-internal fun ReadingSettings(sync: SyncState, scroll: ScrollState, onVip: (Boolean) -> Unit, onRefresh: () -> Unit) {
+internal fun ReadingSettings(
+  sync: SyncState,
+  scroll: ScrollState,
+  onVip: (Boolean) -> Unit,
+  onStaging: (Boolean) -> Unit,
+  onRefresh: () -> Unit,
+) {
   Column(Modifier.fillMaxWidth().testTag("reading-settings-content").verticalScroll(scroll).padding(start = 24.dp, end = 24.dp, bottom = 32.dp),
     verticalArrangement = Arrangement.spacedBy(12.dp)) {
     Text(stringResource(R.string.reading_settings), style = MaterialTheme.typography.headlineMedium)
@@ -90,6 +96,15 @@ internal fun ReadingSettings(sync: SyncState, scroll: ScrollState, onVip: (Boole
       val description = stringResource(R.string.translation_variant)
       Switch(checked = sync.variant == ReRuneVariant.fromSlug("vip"), onCheckedChange = onVip,
         enabled = !sync.variantBusy, modifier = Modifier.testTag("translation-variant-toggle").semantics { contentDescription = description })
+    }
+    Row(Modifier.fillMaxWidth().padding(vertical = 8.dp), verticalAlignment = Alignment.CenterVertically) {
+      Column(Modifier.weight(1f)) {
+        Text(stringResource(R.string.staging_mode), style = MaterialTheme.typography.titleMedium)
+        Text(stringResource(R.string.staging_mode_description), color = TextSecondary)
+      }
+      val stagingDescription = stringResource(R.string.staging_mode)
+      Switch(checked = sync.staging, onCheckedChange = onStaging,
+        enabled = !sync.stagingBusy, modifier = Modifier.testTag("staging-mode-toggle").semantics { contentDescription = stagingDescription })
     }
     HorizontalDivider(color = BorderSubtle)
     Text(stringResource(R.string.publish_date, "14.07.2026"), color = TextSecondary)

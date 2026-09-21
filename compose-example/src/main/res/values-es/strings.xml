@@ -55,6 +55,9 @@
   <string name="reading_settings">"Ajustes de lectura"</string>
   <string name="settings_description">"Prueba otra edición y actualiza los textos de tus historias."</string>
   <string name="translation_variant">"Edición VIP"</string>
+  <string name="staging_mode">"Modo de staging"</string>
+  <string name="staging_mode_description">"Previsualiza borradores antes de publicarlos."</string>
+  <string name="staging_mode_error">"No se pudo cambiar el modo de staging."</string>
   <string name="variant_save_error">"La edición cambió, pero no se pudo guardar para la próxima vez."</string>
   <string name="session_note">"Los marcadores y el progreso se conservan durante esta sesión."</string>
   <string name="back_library">"Volver a la biblioteca"</string>

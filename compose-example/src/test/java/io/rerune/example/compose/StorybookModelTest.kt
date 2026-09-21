@@ -91,7 +91,51 @@ class StorybookModelTest {
     assertEquals(ReRuneVariant.Main, model.sync.value.variant)
   }
 
+  @Test fun `staging switch reports the triggered sync and ignores overlap and failures`() = runTest(dispatcher) {
+    val gateway = FakeUpdates()
+    val pending = CompletableDeferred<ReRuneUpdateResult?>()
+    gateway.pendingStaging = pending
+    val model = StorybookModel(gateway)
+    advanceUntilIdle()
+
+    model.setStaging(true); model.setStaging(false)
+    assertTrue(model.sync.value.stagingBusy)
+    runCurrent()
+    assertEquals(1, gateway.stagingWrites)
+    pending.complete(ReRuneUpdateResult(ReRuneUpdateResult.ReRuneUpdateStatus.Updated))
+    advanceUntilIdle()
+    assertTrue(model.sync.value.staging)
+    assertEquals(R.string.welcome_refresh_state_success, model.sync.value.feedback)
+    assertFalse(model.sync.value.stagingBusy)
+
+    gateway.pendingStaging = null
+    gateway.stagingResult = null
+    model.setStaging(false); advanceUntilIdle()
+    assertFalse(model.sync.value.staging)
+    assertEquals(R.string.refresh_current, model.sync.value.feedback)
+
+    gateway.stagingResult = ReRuneUpdateResult(ReRuneUpdateResult.ReRuneUpdateStatus.Failed, errorMessage = "offline")
+    model.setStaging(true); advanceUntilIdle()
+    assertTrue(model.sync.value.staging)
+    assertEquals(R.string.staging_mode_error, model.sync.value.feedback)
+
+    gateway.failStaging = true
+    model.setStaging(false); advanceUntilIdle()
+    assertFalse(model.sync.value.staging)
+    assertEquals(R.string.staging_mode_error, model.sync.value.feedback)
+    assertFalse(model.sync.value.stagingBusy)
+  }
+
+  @Test fun `staging state starts from the active SDK mode`() = runTest(dispatcher) {
+    val gateway = FakeUpdates().apply { isStaging = true }
+
+    val model = StorybookModel(gateway)
+
+    assertTrue(model.sync.value.staging)
+  }
+
   private class FakeUpdates : StorybookUpdates {
+    override var isStaging: Boolean = false
     var variant = ReRuneVariant.Main
     var calls = 0
     var variantWrites = 0
@@ -109,6 +153,17 @@ class StorybookModelTest {
       calls++
       if (failRefresh) error("Network unavailable")
       return pending?.await() ?: result
+    }
+
+    var stagingWrites = 0
+    var failStaging = false
+    var pendingStaging: CompletableDeferred<ReRuneUpdateResult?>? = null
+    var stagingResult: ReRuneUpdateResult? = null
+    override suspend fun setStaging(staging: Boolean): ReRuneUpdateResult? {
+      stagingWrites++
+      isStaging = staging
+      if (failStaging) error("Storage rejected write")
+      return pendingStaging?.await() ?: stagingResult
     }
   }
 }

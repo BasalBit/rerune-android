@@ -4,7 +4,8 @@
 
 - Added the reviewed Chapter reading experience to both ReRune examples, preserving their name, launcher icons, and Compose and native Views implementations.
 - Added native fallback resources in five languages, chapter progress, bookmarks, discovery, language selection, and persistent Main/VIP selection.
-- Updated Maven dependencies to published SDK `1.1.1` and the public demo OTA target. Live delivery now accepts its zero-based placeholder orders.
+- Added a session scoped Staging mode switch to both examples, with fallback copy in five languages. The samples do not enable staging during setup, so restarts return to published delivery.
+- Updated Maven dependencies to published SDK `1.2.0` and the public demo OTA target. Live delivery now accepts its zero-based placeholder orders.
 - Added model, UI, and opt-in live delivery checks.
 - CI verifies live locale downloads, Main/VIP headings, native formatting, and a language available only through OTA.
 - Preserved merged SDK MIT notices and both bundled font licenses.

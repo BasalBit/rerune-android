@@ -4,8 +4,6 @@ plugins {
   alias(libs.plugins.android.application)
 }
 
-val otaPublishId = providers.gradleProperty("RERUNE_OTA_PUBLISH_ID").get()
-
 android {
   namespace = "io.rerune.example.views"
   compileSdk = 36
@@ -16,13 +14,10 @@ android {
     targetSdk = 36
     versionCode = 1
     versionName = "1.0"
-
-    buildConfigField("String", "RERUNE_OTA_PUBLISH_ID", "\"$otaPublishId\"")
   }
 
   buildFeatures {
     viewBinding = true
-    buildConfig = true
   }
 
   packaging {

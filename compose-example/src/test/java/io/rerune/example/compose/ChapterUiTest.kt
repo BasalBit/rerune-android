@@ -100,6 +100,7 @@ class ChapterUiTest {
     val reading = model().reading.value
     tap("reading-settings")
     compose.waitForIdle()
+    compose.onNodeWithTag("staging-mode-toggle").assertIsDisplayed()
     fun sheetWindow(): View {
       val manager = ReflectionHelpers.callStaticMethod<Any>(Class.forName("android.view.WindowManagerGlobal"), "getInstance")
       return ReflectionHelpers.getField<ArrayList<View>>(manager, "mViews").last()

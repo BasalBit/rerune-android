@@ -54,6 +54,9 @@
   <string name="reading_settings">"Leseeinstellungen"</string>
   <string name="settings_description">"Probiere eine andere Ausgabe und aktualisiere die Texte deiner Geschichten."</string>
   <string name="translation_variant">"VIP-Ausgabe"</string>
+  <string name="staging_mode">"Staging-Modus"</string>
+  <string name="staging_mode_description">"Zeigt unveröffentlichte Entwürfe, bevor sie veröffentlicht werden."</string>
+  <string name="staging_mode_error">"Der Staging-Modus konnte nicht umgeschaltet werden."</string>
   <string name="variant_save_error">"Die Ausgabe wurde geändert, konnte aber nicht gespeichert werden."</string>
   <string name="session_note">"Lesezeichen und Lesefortschritt bleiben während dieser Sitzung erhalten."</string>
   <string name="back_library">"Zurück zur Bibliothek"</string>

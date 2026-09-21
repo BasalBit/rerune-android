@@ -49,6 +49,29 @@ internal class ReadingSettingsDialog(context: Context, model: StorybookModel) : 
           })
         })
         addView(space(20))
+        addView(row().apply {
+          addView(column().apply {
+            addView(label(R.string.staging_mode, 17f, bold = true))
+            addView(text(14f, R.color.text_secondary) { context.getString(R.string.staging_mode_description) })
+          }, LinearLayout.LayoutParams(0, Wrap, 1f))
+          addView(MaterialSwitch(context).apply {
+            tag = "staging-mode-toggle"
+            minimumHeight = context.dp(48)
+            trackTintList = ColorStateList(arrayOf(intArrayOf(android.R.attr.state_checked), intArrayOf()),
+              intArrayOf(context.color(R.color.accent_primary), context.color(R.color.border_subtle)))
+            thumbTintList = ColorStateList(arrayOf(intArrayOf(android.R.attr.state_checked), intArrayOf()),
+              intArrayOf(context.color(R.color.bg_primary), context.color(R.color.text_secondary)))
+            bind {
+              rebinding = true
+              isChecked = model.sync.value.staging
+              isEnabled = !model.sync.value.stagingBusy
+              contentDescription = context.getString(R.string.staging_mode)
+              rebinding = false
+            }
+            setOnCheckedChangeListener { _, checked -> if (!rebinding) model.setStaging(checked) }
+          })
+        })
+        addView(space(20))
         addView(View(context).apply { setBackgroundColor(context.color(R.color.border_subtle)) }, LinearLayout.LayoutParams(Fill, context.dp(1)))
         addView(space(12))
         addView(text(16f, R.color.text_secondary) { context.getString(R.string.publish_date, "14.07.2026") })

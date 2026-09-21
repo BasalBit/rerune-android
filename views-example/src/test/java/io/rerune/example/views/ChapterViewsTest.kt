@@ -98,6 +98,7 @@ class ChapterViewsTest {
     tap("reading-settings")
     val sheet = requireNotNull(activity.settings)
     val original = requireNotNull(sheet.window).decorView
+    assertNotNull(original.findViewWithTag<MaterialSwitch>("staging-mode-toggle"))
     var detachments = 0
     original.addOnAttachStateChangeListener(object : View.OnAttachStateChangeListener {
       override fun onViewAttachedToWindow(view: View) = Unit

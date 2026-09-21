@@ -21,14 +21,14 @@ class ChapterDeliveryTest {
   @Test fun configuredTargetDeliversAndRefreshReportsItsActualOutcome() = runBlocking {
     assumeTrue("Enable with -Prerune.liveDelivery=true", System.getProperty("rerune.liveDelivery") == "true")
     val app = ApplicationProvider.getApplicationContext<Application>()
-    ReRune.setup(app, BuildConfig.RERUNE_OTA_PUBLISH_ID,
+    ReRune.setup(app, "03141fc5dde6e5a1f9debf99ee68bbb125dc830412fdfb85af4834d3de341b3b",
       updatePolicy = ReRuneUpdatePolicy(checkOnStart = false, periodicIntervalInDays = 0))
     val first = ReRune.checkForUpdates()
     val second = ReRune.checkForUpdates()
     val locales = ReRune.availableLocalesFlow.value
     val output = File(requireNotNull(System.getProperty("example.reports")), "rerune-delivery.txt")
     requireNotNull(output.parentFile).mkdirs()
-    output.writeText("OTA ID: ${BuildConfig.RERUNE_OTA_PUBLISH_ID}\nFirst refresh: $first\nSecond refresh: $second\n" +
+    output.writeText("First refresh: $first\nSecond refresh: $second\n" +
       "Locales: $locales\nNative title: ${app.reRune().getString(R.string.story_title)}\n")
     println(output.readText())
     assertNull("Live delivery failed: ${first.errorMessage}", first.errorMessage)

@@ -70,18 +70,25 @@ internal data class SyncState(
   val variant: ReRuneVariant = ReRuneVariant.Main,
   val variantBusy: Boolean = true,
   val variantReady: Boolean = false,
+  val staging: Boolean = false,
+  val stagingBusy: Boolean = false,
 )
 
 internal interface StorybookUpdates {
+  val isStaging: Boolean
   suspend fun refresh(): ReRuneUpdateResult
   suspend fun getVariant(): ReRuneVariant
   suspend fun setVariant(variant: ReRuneVariant)
+  suspend fun setStaging(staging: Boolean): ReRuneUpdateResult?
 }
 
 internal object SdkStorybookUpdates : StorybookUpdates {
+  override val isStaging: Boolean
+    get() = ReRune.isStaging
   override suspend fun refresh() = ReRune.checkForUpdates()
   override suspend fun getVariant() = ReRune.getVariant()
   override suspend fun setVariant(variant: ReRuneVariant) = ReRune.setVariant(variant, persist = true)
+  override suspend fun setStaging(staging: Boolean) = ReRune.setStaging(staging)
 }
 
 internal class StorybookModel(
@@ -89,7 +96,7 @@ internal class StorybookModel(
 ) : ViewModel() {
   private val readingState = MutableStateFlow(ReadingState())
   val reading = readingState.asStateFlow()
-  private val syncState = MutableStateFlow(SyncState())
+  private val syncState = MutableStateFlow(SyncState(staging = updates.isStaging))
   val sync = syncState.asStateFlow()
 
   init { restoreVariant() }
@@ -155,5 +162,33 @@ internal class StorybookModel(
         syncState.update { it.copy(variantBusy = false) }
       }
     }
+  }
+
+  fun setStaging(enabled: Boolean) {
+    if (syncState.value.stagingBusy) return
+    syncState.update { it.copy(stagingBusy = true, feedback = null) }
+    viewModelScope.launch {
+      try {
+        val result = updates.setStaging(enabled)
+        syncState.update {
+          it.copy(staging = updates.isStaging, feedback = stagingFeedback(result))
+        }
+      } catch (cancelled: CancellationException) {
+        throw cancelled
+      } catch (_: Exception) {
+        syncState.update {
+          it.copy(staging = updates.isStaging, feedback = R.string.staging_mode_error)
+        }
+      } finally {
+        syncState.update { it.copy(stagingBusy = false) }
+      }
+    }
+  }
+
+  private fun stagingFeedback(result: ReRuneUpdateResult?): Int = when {
+    result == null -> R.string.refresh_current
+    result.errorMessage != null || result.status == ReRuneUpdateResult.ReRuneUpdateStatus.Failed -> R.string.staging_mode_error
+    result.status == ReRuneUpdateResult.ReRuneUpdateStatus.Updated -> R.string.welcome_refresh_state_success
+    else -> R.string.refresh_current
   }
 }

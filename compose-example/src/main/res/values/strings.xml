@@ -55,6 +55,9 @@
   <string name="reading_settings">"Reading settings"</string>
   <string name="settings_description">"Try another edition and refresh the words in your stories."</string>
   <string name="translation_variant">"VIP edition"</string>
+  <string name="staging_mode">"Staging mode"</string>
+  <string name="staging_mode_description">"Preview draft translations before they are published."</string>
+  <string name="staging_mode_error">"Staging mode could not be switched."</string>
   <string name="variant_save_error">"This edition changed, but could not be saved for next time."</string>
   <string name="session_note">"Bookmarks and reading progress stay with you during this app session."</string>
   <string name="back_library">"Back to library"</string>

@@ -55,7 +55,7 @@ internal fun ChapterApp(model: StorybookModel, onLocale: (String?) -> Unit) {
       tonalElevation = 0.dp, scrimColor = Color.Black.copy(alpha = .54f),
       sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)) {
       reRuneObserveRevision {
-        ReadingSettings(sync, settingsScroll, model::setVip, model::refresh)
+        ReadingSettings(sync, settingsScroll, model::setVip, model::setStaging, model::refresh)
       }
     }
   }

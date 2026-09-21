@@ -7,8 +7,8 @@ required.
 
 | Example | Published dependency |
 | --- | --- |
-| `compose-example` | `io.rerune:rerune-android-compose:1.1.1` |
-| `views-example` | `io.rerune:rerune-android-views:1.1.1` |
+| `compose-example` | `io.rerune:rerune-android-compose:1.2.0` |
+| `views-example` | `io.rerune:rerune-android-views:1.2.0` |
 
 Both resolve from Maven Central. Versions are pinned in
 [the version catalog](gradle/libs.versions.toml). These are Kotlin Android apps;
@@ -55,33 +55,31 @@ and newer. Release assemblies are unsigned.
 
 The reading apps include three stories, chapter progress, bookmarks, discovery
 filters, and a language picker. Reading state lasts for the app session and
-survives locale changes. Reading settings offer persistent Main/VIP selection
-and a refresh action.
+survives locale changes. Reading settings offer persistent Main/VIP selection,
+a session scoped Staging mode switch, and a refresh action.
 
 Toggle VIP in reading settings, then close the sheet to see the library heading
 change. Choose French or Albanian to try a language supplied entirely by ReRune.
 
-Both apps use the public OTA ID in [gradle.properties](gradle.properties):
+Turn on Staging mode to preview enabled draft translations before publication.
+The samples do not enable staging in `ReRune.setup(...)`, so restarting either
+app returns it to published delivery.
+
+Both apps pass the public OTA ID directly to `ReRune.setup(...)`:
 
 ```text
 03141fc5dde6e5a1f9debf99ee68bbb125dc830412fdfb85af4834d3de341b3b
 ```
 
-To try your own target, override it at build time:
-
-```bash
-./gradlew :compose-example:assembleDebug :views-example:assembleDebug -PRERUNE_OTA_PUBLISH_ID=replace-me
-```
-
-SDK `1.1.1` supports the public target's placeholder format. Both examples
+SDK `1.2.0` supports the public target's placeholder format. Both examples
 successfully downloaded all seven published locales and reported an unchanged
 second refresh on September 14, 2026. English, German, Spanish, Italian, and
 Portuguese are also bundled for offline fallback.
 
 ## Integration code
 
-Each `DemoApplication` calls `ReRune.setup(...)` with the generated
-`BuildConfig.RERUNE_OTA_PUBLISH_ID`. Views also calls `ReRuneViews.install(this)`.
+Each `DemoApplication` passes the public OTA ID directly to `ReRune.setup(...)`.
+Views also calls `ReRuneViews.install(this)`.
 Both activities wrap their base context with `newBase.reRune()` and use native
 string and plural resources.
 
@@ -91,8 +89,9 @@ The settings dialog stays attached during a text revision.
 
 `Storybook.kt` contains the app's reading state and delegates refresh and variant
 selection to `ReRune.checkForUpdates()`, `ReRune.getVariant()`, and
-`ReRune.setVariant(variant, persist = true)`. A non-null SDK error message is
-reported as failure even when the SDK status is `Updated` or `NoChange`.
+`ReRune.setVariant(variant, persist = true)`. It switches delivery mode with
+`ReRune.setStaging(...)`. A non-null SDK error message is reported as failure
+even when the SDK status is `Updated` or `NoChange`.
 
 ## Tests
 

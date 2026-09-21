@@ -55,6 +55,9 @@
   <string name="reading_settings">"Impostazioni di lettura"</string>
   <string name="settings_description">"Prova un'altra edizione e aggiorna i testi delle tue storie."</string>
   <string name="translation_variant">"Edizione VIP"</string>
+  <string name="staging_mode">"Modalità di staging"</string>
+  <string name="staging_mode_description">"Mostra le bozze prima della pubblicazione."</string>
+  <string name="staging_mode_error">"Impossibile cambiare la modalità di staging."</string>
   <string name="variant_save_error">"L'edizione è cambiata, ma non è stato possibile salvarla."</string>
   <string name="session_note">"Segnalibri e progressi restano disponibili durante questa sessione."</string>
   <string name="back_library">"Torna alla biblioteca"</string>
