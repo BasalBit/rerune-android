@@ -10,6 +10,7 @@
 - Fixed the Views example bottom navigation drawing icons and labels on top of each other: the navigation bar inset was applied twice inside the fixed bar height.
 - Updated both examples to ReRune Android SDK `1.3.0`, which loads the manifest from the CDN with the publish ID in the URL path and requests locale versions through the URL path.
 - Removed the `META-INF/LICENSE` merge rule. SDK `1.3.0` ships each notice at `META-INF/rerune/<artifactId>/LICENSE.txt`, which default packaging keeps.
+- Updated both examples to ReRune Android SDK `1.4.0`. The SDK now uses the platform `HttpURLConnection` instead of OkHttp, so the examples no longer receive OkHttp and Okio through ReRune. SDK requests always reach the CDN and identify themselves as `rerune-android/1.4.0`. No example code changed.
 - Upgraded the example build to Android Gradle Plugin `9.4.1` and Gradle `9.8.1`, matching the SDK build. The `kotlin` compiler options block moved out of `android { }` to the top level. AGP `9.4.1` requires Gradle `9.6.0` or newer.
 - CI verifies live locale downloads, Main/VIP headings, native formatting, and a language available only through OTA.
 - Preserved merged SDK MIT notices and both bundled font licenses.
