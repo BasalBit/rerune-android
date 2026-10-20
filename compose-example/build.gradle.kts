@@ -21,27 +21,19 @@ android {
     compose = true
   }
 
-  packaging {
-    resources {
-      // Core and Compose both ship their license. Preserve every notice in the APK.
-      excludes -= "/META-INF/LICENSE"
-      merges += "META-INF/LICENSE"
-    }
-  }
-
   compileOptions {
     sourceCompatibility = JavaVersion.VERSION_17
     targetCompatibility = JavaVersion.VERSION_17
   }
 
-  kotlin {
-    compilerOptions {
-      jvmTarget = JvmTarget.JVM_17
-    }
-  }
-
   testOptions {
     unitTests.isIncludeAndroidResources = true
+  }
+}
+
+kotlin {
+  compilerOptions {
+    jvmTarget = JvmTarget.JVM_17
   }
 }
 

@@ -7,7 +7,10 @@ import android.widget.TextView
 import android.widget.ListView
 import android.widget.ScrollView
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.graphics.Insets
 import androidx.core.os.LocaleListCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.materialswitch.MaterialSwitch
 import kotlinx.coroutines.runBlocking
@@ -64,6 +67,18 @@ class ChapterViewsTest {
     is TextView -> listOf(view.text.toString())
     is ViewGroup -> (0 until view.childCount).flatMap { allText(view.getChildAt(it)) }
     else -> emptyList()
+  }
+
+  @Test fun navigationBarInsetIsAppliedOnce() {
+    val container = activity.findViewById<View>(R.id.screen_container)
+    val bars = Insets.of(0, 24, 0, 48)
+    val insets = WindowInsetsCompat.Builder()
+      .setInsets(WindowInsetsCompat.Type.systemBars(), bars).build()
+    ViewCompat.dispatchApplyWindowInsets(container, insets)
+    settle()
+    assertEquals(48, container.paddingBottom)
+    val navigation = root.findViewWithTag<BottomNavigationView>("chapter-navigation")
+    assertEquals("Navigation must not pad itself for the navigation bar again", 0, navigation.paddingBottom)
   }
 
   @Test fun libraryReaderDiscoveryAndSaved() {

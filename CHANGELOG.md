@@ -7,6 +7,10 @@
 - Added a session scoped Staging mode switch to both examples, with fallback copy in five languages. The samples do not enable staging during setup, so restarts return to published delivery.
 - Updated Maven dependencies to published SDK `1.2.0` and the public demo OTA target. Live delivery now accepts its zero-based placeholder orders.
 - Added model, UI, and opt-in live delivery checks.
+- Fixed the Views example bottom navigation drawing icons and labels on top of each other: the navigation bar inset was applied twice inside the fixed bar height.
+- Updated both examples to ReRune Android SDK `1.3.0`, which loads the manifest from the CDN with the publish ID in the URL path and requests locale versions through the URL path.
+- Removed the `META-INF/LICENSE` merge rule. SDK `1.3.0` ships each notice at `META-INF/rerune/<artifactId>/LICENSE.txt`, which default packaging keeps.
+- Upgraded the example build to Android Gradle Plugin `9.4.1` and Gradle `9.8.1`, matching the SDK build. The `kotlin` compiler options block moved out of `android { }` to the top level. AGP `9.4.1` requires Gradle `9.6.0` or newer.
 - CI verifies live locale downloads, Main/VIP headings, native formatting, and a language available only through OTA.
 - Preserved merged SDK MIT notices and both bundled font licenses.
 - Removed migration records, reference images, screenshot generation, copied ARB catalogs, and their generator and comparison tests. The running apps are the design reference; behavior tests and standalone Maven Central consumption remain.

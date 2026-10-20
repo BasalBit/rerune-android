@@ -52,7 +52,8 @@ class MainActivity : AppCompatActivity() {
     ViewCompat.setOnApplyWindowInsetsListener(binding.screenContainer) { view, insets ->
       val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.displayCutout())
       view.updatePadding(left = bars.left, top = bars.top, right = bars.right, bottom = bars.bottom)
-      insets
+      // Consumed here so BottomNavigationView does not pad itself for the navigation bar a second time.
+      WindowInsetsCompat.CONSUMED
     }
     ViewCompat.requestApplyInsets(binding.screenContainer)
     onBackPressedDispatcher.addCallback(this, back)
