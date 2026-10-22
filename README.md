@@ -7,8 +7,8 @@ required.
 
 | Example | Published dependency |
 | --- | --- |
-| `compose-example` | `io.rerune:rerune-android-compose:1.4.0` |
-| `views-example` | `io.rerune:rerune-android-views:1.4.0` |
+| `compose-example` | `io.rerune:rerune-android-compose:1.5.0` |
+| `views-example` | `io.rerune:rerune-android-views:1.5.0` |
 
 Both resolve from Maven Central. Versions are pinned in
 [the version catalog](gradle/libs.versions.toml). These are Kotlin Android apps;
@@ -71,9 +71,9 @@ Both apps pass the public OTA ID directly to `ReRune.setup(...)`:
 03141fc5dde6e5a1f9debf99ee68bbb125dc830412fdfb85af4834d3de341b3b
 ```
 
-SDK `1.4.0` supports the public target's placeholder format. Both examples
-successfully downloaded all seven published locales and reported an unchanged
-second refresh on October 20, 2026. English, German, Spanish, Italian, and
+SDK `1.5.0` supports the public target's placeholder format. With SDK `1.4.0`,
+both examples successfully downloaded all seven published locales and reported
+an unchanged second refresh on October 20, 2026. English, German, Spanish, Italian, and
 Portuguese are also bundled for offline fallback.
 
 ## Integration code
