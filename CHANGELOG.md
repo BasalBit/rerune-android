@@ -1,7 +1,8 @@
 # Changelog
 
-## Unreleased
+## 1.6.0 (2026-10-29)
 
+- Example versions now follow the ReRune Android SDK version they use. This release uses SDK `1.6.0`; earlier example releases were numbered `0.1.x`.
 - Added the reviewed Chapter reading experience to both ReRune examples, preserving their name, launcher icons, and Compose and native Views implementations.
 - Added native fallback resources in five languages, chapter progress, bookmarks, discovery, language selection, and persistent Main/VIP selection.
 - Added a session scoped Staging mode switch to both examples, with fallback copy in five languages. The samples do not enable staging during setup, so restarts return to published delivery.
