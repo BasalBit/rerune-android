@@ -5,6 +5,10 @@ Example versions follow the ReRune Android SDK version the examples use. Each
 Releases before 2026-10-29 were numbered `0.1.0` to `0.1.5`; they are now
 `0.4.1`, `0.4.2`, `0.5.0`, `0.13.0`, `0.14.0`, and `1.0.1`.
 
+## 1.7.0 (2026-11-03)
+
+- Updated both examples to ReRune Android SDK `1.7.0`. A failure that starts inside ReRune is now logged instead of ending the app, while a failure the app would hit without ReRune (an unknown resource id, or format arguments that do not fit the app's own text) throws exactly as Android throws it. An invalid variant slug or a negative update interval, for example from remote configuration, is logged and replaced with a safe value, and styled app texts keep their styling. No example code changed.
+
 ## 1.6.0 (2026-10-28)
 
 - Updated both examples to ReRune Android SDK `1.6.0`. OTA languages now match the phone's region and script the way Android picks resource folders, a language the app does not ship shows its OTA text even when Android resolves the app to another language, CDN responses are always read as UTF-8, and the SDK checks for updates whenever the app returns to the foreground. No example code changed.
