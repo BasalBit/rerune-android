@@ -5,6 +5,10 @@ Example versions follow the ReRune Android SDK version the examples use. Each
 Releases before 2026-10-29 were numbered `0.1.0` to `0.1.5`; they are now
 `0.4.1`, `0.4.2`, `0.5.0`, `0.13.0`, `0.14.0`, and `1.0.1`.
 
+## 1.8.0 (2026-11-04)
+
+- Updated both examples to ReRune Android SDK `1.8.0`. Only the languages in use stay in memory, and each language's texts are stored in their own file, so after the update the examples download their texts once again. The Compose example refreshes texts in place: scroll positions and other screen state stay when the texts change. The Compose SDK now ships a lint check that warns about a text kept in a `remember` without keys. A locale published with and without its script (`zh-TW` and `zh-Hant-TW`) now follows Android's order. No example code changed.
+
 ## 1.7.0 (2026-11-03)
 
 - Updated both examples to ReRune Android SDK `1.7.0`. A failure that starts inside ReRune is now logged instead of ending the app, while a failure the app would hit without ReRune (an unknown resource id, or format arguments that do not fit the app's own text) throws exactly as Android throws it. An invalid variant slug or a negative update interval, for example from remote configuration, is logged and replaced with a safe value, and styled app texts keep their styling. No example code changed.
